@@ -10,43 +10,34 @@
     return
   }
 
-  const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY
+  const RESEND_API_KEY = process.env.RESEND_API_KEY
   const SENDER_EMAIL = process.env.SENDER_EMAIL
   const RECEIVER_EMAIL = process.env.RECEIVER_EMAIL
 
-  if (!SENDGRID_API_KEY || !SENDER_EMAIL || !RECEIVER_EMAIL) {
+  if (!RESEND_API_KEY || !SENDER_EMAIL || !RECEIVER_EMAIL) {
     res.status(200).json({ ok: true, skipped: true })
     return
   }
 
   const payload = {
-    personalizations: [
-      {
-        to: [{ email: RECEIVER_EMAIL }],
-        subject: 'New AVNTAE contact inquiry',
-      },
-    ],
-    from: { email: SENDER_EMAIL },
-    reply_to: { email },
-    content: [
-      {
-        type: 'text/plain',
-        value: `Name: ${name || '-'}\nEmail: ${email}\n\nMessage:\n${message}`,
-      },
-    ],
+    from: SENDER_EMAIL,
+    to: [RECEIVER_EMAIL],
+    reply_to: email,
+    subject: 'New AVNTAE contact inquiry',
+    text: `Name: ${name || '-'}\nEmail: ${email}\n\nMessage:\n${message}`,
   }
 
   try {
-    const r = await fetch('https://api.sendgrid.com/v3/mail/send', {
+    const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${SENDGRID_API_KEY}`,
+        Authorization: `Bearer ${RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
     })
 
-    if (!r.ok) {
+    if (!response.ok) {
       res.status(200).json({ ok: true, sent: false })
       return
     }
