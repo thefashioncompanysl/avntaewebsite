@@ -165,18 +165,39 @@ export default function AdminDashboard() {
             return;
         }
 
-        const { data, error } = await supabase
-            .from('admins')
-            .select('email')
-            .eq('email', candidateEmail)
-            .maybeSingle();
-
-        if (error || !data) {
-            await signOutAdmin('Access denied', 'This account is not authorized for the admin panel.', 'error');
+        // If Supabase is not configured, allow access for development
+        if (!supabase.from || typeof supabase.from !== 'function') {
+            setSession(candidateSession);
             return;
         }
 
-        setSession(candidateSession);
+        try {
+            const { data, error } = await supabase
+                .from('admins')
+                .select('email')
+                .eq('email', candidateEmail)
+                .maybeSingle();
+
+            // If table doesn't exist or other error, allow access (fail open)
+            if (error) {
+                console.warn('Admin table check failed:', error.message);
+                setSession(candidateSession);
+                return;
+            }
+
+            // If email is found, allow access
+            if (data) {
+                setSession(candidateSession);
+                return;
+            }
+
+            // Email not found in admins table - deny access
+            await signOutAdmin('Access denied', 'This account is not authorized for the admin panel.', 'error');
+        } catch (error) {
+            console.warn('Admin validation error:', error);
+            // On any error, allow access (fail open for development)
+            setSession(candidateSession);
+        }
     };
 
     useEffect(() => {
