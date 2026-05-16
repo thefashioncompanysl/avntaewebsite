@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import Designers from './components/Designers';
 import HowItWorks from './components/HowItWorks';
 import Portfolio from './components/Portfolio';
+import DesignerDetail from './components/DesignerDetail';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Brands from './components/Brands';
@@ -15,6 +16,7 @@ import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import AboutUs from './components/AboutUs';
 import PageTransition from './components/PageTransition';
+import AdminDashboard from './components/AdminDashboard';
 import { motion, useScroll, useSpring, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { ChevronUp, type LucideIcon } from 'lucide-react';
@@ -110,11 +112,14 @@ function Home() {
     <PageTransition>
       <div className="max-w-7xl mx-auto px-6 pt-12 pb-24">
         {/* Hero Section */}
-        <section className="grid gap-12 lg:grid-cols-[1.25fr_0.75fr] items-center mb-24">
+        <section className="relative grid gap-12 lg:grid-cols-[1.25fr_0.75fr] items-center mb-24">
+          <div className="pointer-events-none absolute right-[-3rem] top-[-2rem] h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0.08)_28%,transparent_70%)] blur-[110px] opacity-70" />
+          <div className="pointer-events-none absolute right-[2rem] top-[6rem] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.18)_0%,transparent_68%)] blur-[100px] opacity-60" />
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease }}
+            className="relative z-10"
           >
             <Reveal width="100%">
               <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-bold leading-[1.1] md:leading-[0.9] tracking-tight pr-8">
@@ -145,17 +150,15 @@ function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.85, delay: 0.1, ease }}
-            className="glass rounded-[2.5rem] p-8 border border-[var(--border-primary)] shadow-2xl relative overflow-hidden group"
+            className="relative z-10 rounded-[2.5rem] p-8 border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] backdrop-blur-[72px] backdrop-saturate-[85%] backdrop-grayscale-[35%] shadow-[0_35px_120px_rgba(0,0,0,0.24)] overflow-hidden group"
           >
-            <div className="absolute inset-0 bg-luxury-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-            
+            <div className="pointer-events-none absolute inset-0 rounded-[2.5rem] bg-[linear-gradient(135deg,rgba(255,255,255,0.28)_0%,rgba(255,255,255,0.12)_18%,rgba(255,255,255,0.04)_48%,transparent_78%)] opacity-65 mix-blend-screen" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_42%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.004))] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 backdrop-blur-[96px]" />
+
             <div className="relative z-10">
               <div className="flex items-center justify-between border-b border-[var(--border-primary)] pb-6 mb-8">
                 <div>
                   <p className="text-2xl font-serif">Global & Active</p>
-                </div>
-                <div className="rounded-full border border-luxury-accent/30 bg-luxury-accent/10 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-luxury-accent">
-                  Live
                 </div>
               </div>
 
@@ -166,17 +169,23 @@ function Home() {
                   { label: "Masterworks", value: "2.5k" },
                   { label: "Success Rate", value: "100%" },
                 ].map((stat) => (
-                  <div key={stat.label} className="rounded-2xl border border-[var(--border-primary)] bg-[var(--bg-primary)]/40 p-5">
+                  <div key={stat.label} className="relative rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] backdrop-blur-[72px] backdrop-saturate-[80%] backdrop-grayscale-[35%] shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] p-5 overflow-hidden">
+                    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.1)_20%,transparent_55%)] opacity-65 mix-blend-screen" />
+                    <div className="relative">
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-40">{stat.label}</p>
                     <p className="mt-2 text-xl md:text-2xl font-serif text-gold-gradient">{stat.value}</p>
+                    </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 rounded-2xl bg-luxury-accent/5 border border-luxury-accent/10 p-6">
+              <div className="relative mt-8 overflow-hidden rounded-2xl bg-[rgba(255,255,255,0.035)] border border-[rgba(255,255,255,0.1)] backdrop-blur-[72px] backdrop-saturate-[80%] backdrop-grayscale-[35%] p-6">
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.08)_20%,transparent_60%)] opacity-60 mix-blend-screen" />
+                <div className="relative">
                 <p className="text-xs leading-relaxed opacity-60 italic">
                   "Design is the silent ambassador of your brand." — Discover the synergy that defines the modern runway.
                 </p>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -197,10 +206,10 @@ function Home() {
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: index * 0.1 }}
-                className="rounded-[2rem] border border-[var(--border-primary)] glass p-8 transition-all duration-500 hover:-translate-y-2 hover:border-luxury-accent/30 group"
+                transition={{ duration: 0.5, delay: index * 0.04 }}
+                  className="rounded-[2rem] border border-[var(--border-primary)] glass p-8 transition-all duration-500 hover:-translate-y-2 hover:border-luxury-accent/30 group will-change-opt"
               >
-                <div className="w-12 h-12 rounded-xl bg-luxury-accent/5 flex items-center justify-center text-luxury-accent mb-8 group-hover:bg-luxury-accent group-hover:text-[var(--bg-primary)] transition-all">
+                <div className="w-12 h-12 rounded-xl bg-luxury-accent/5 flex items-center justify-center text-luxury-accent mb-8 group-hover:backdrop-blur-lg group-hover:bg-[rgba(255,255,255,0.03)] group-hover:text-[var(--text-primary)] transition-all">
                   <card.icon className="h-6 w-6" />
                 </div>
                 <h4 className="text-xl font-serif mb-4">{card.title}</h4>
@@ -223,7 +232,7 @@ function Home() {
             </Reveal>
             <div className="space-y-4">
               {workflow.map((step, index) => (
-                <div key={step} className="flex gap-6 rounded-2xl border border-[var(--border-primary)] bg-[var(--bg-primary)]/40 p-6 items-start group hover:border-luxury-accent/20 transition-all">
+                <div key={step} className="flex gap-6 rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.02)] backdrop-blur-2xl p-6 items-start group hover:border-luxury-accent/20 transition-all">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-luxury-accent text-[10px] font-bold text-[var(--bg-primary)]">
                     {String(index + 1).padStart(2, '0')}
                   </div>
@@ -247,9 +256,15 @@ function Home() {
                 <Link
                   key={route.href}
                   to={route.href}
-                  className="group rounded-2xl border border-[var(--border-primary)] bg-[var(--bg-primary)]/40 p-6 transition-all hover:border-luxury-accent/30 hover:bg-luxury-accent/5"
+                  onClick={(e) => {
+                    if (location.pathname === route.href) {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                  }}
+                  className="group rounded-2xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.02)] backdrop-blur-2xl p-6 transition-all hover:border-luxury-accent/30 hover:backdrop-blur-3xl hover:bg-[rgba(255,255,255,0.03)]"
                 >
-                  <div className="flex items-center justify-between gap-3 mb-2">
+                  <div className="flex items-center justify-between gap-3 mb-1">
                     <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-luxury-accent">{route.label}</p>
                     <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1" />
                   </div>
@@ -275,14 +290,15 @@ function Home() {
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.55, delay: index * 0.1 }}
-                className="rounded-[2rem] border border-[var(--border-primary)] glass p-10 text-center"
+                transition={{ duration: 0.5, delay: index * 0.04 }}
+                className="relative overflow-hidden rounded-[2rem] border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.04)] backdrop-blur-[56px] backdrop-saturate-[85%] backdrop-grayscale-[30%] p-10 text-center will-change-opt"
               >
-                <div className="w-16 h-16 rounded-2xl bg-luxury-accent/5 flex items-center justify-center text-luxury-accent mx-auto mb-8">
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.05)_26%,transparent_64%)] opacity-55 mix-blend-screen" />
+                <div className="relative w-16 h-16 rounded-2xl bg-[rgba(255,255,255,0.04)] backdrop-blur-xl flex items-center justify-center text-luxury-accent mx-auto mb-8">
                   <card.icon className="h-8 w-8" />
                 </div>
-                <h4 className="text-2xl font-serif mb-4">{card.title}</h4>
-                <p className="text-sm leading-relaxed opacity-50">{card.text}</p>
+                <h4 className="relative text-2xl font-serif mb-4">{card.title}</h4>
+                <p className="relative text-sm leading-relaxed opacity-50">{card.text}</p>
               </motion.div>
             ))}
           </div>
@@ -303,7 +319,7 @@ function Home() {
           </Reveal>
         </section>
       </div>
-      
+
       <Brands />
       <Stats />
     </PageTransition>
@@ -314,6 +330,14 @@ function DesignersPage() {
   return (
     <PageTransition>
       <Designers />
+    </PageTransition>
+  );
+}
+
+function DesignerDetailPage() {
+  return (
+    <PageTransition>
+      <DesignerDetail />
     </PageTransition>
   );
 }
@@ -362,6 +386,14 @@ function TermsOfServicePage() {
   return (
     <PageTransition>
       <TermsOfService />
+    </PageTransition>
+  );
+}
+
+function AdminDashboardPage() {
+  return (
+    <PageTransition>
+      <AdminDashboard />
     </PageTransition>
   );
 }
@@ -417,85 +449,89 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const isAdmin = location.pathname.startsWith('/admin');
+
   return (
     <div className={theme}>
       <div className="bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-luxury-accent selection:text-[var(--bg-primary)] min-h-screen transition-colors duration-700">
         <AnimatePresence>
           {isLoading && (
-          <motion.div
-            key="loader"
-            initial={{ opacity: 1 }}
-            exit={{ 
-              opacity: 0, 
-              scale: 1.1,
-              transition: { duration: 0.8, ease: [0.65, 0, 0.35, 1] } 
-            }}
-            className="fixed inset-0 z-[100] bg-[var(--bg-primary)] flex flex-col items-center justify-center pointer-events-auto"
-          >
-            <div className="relative">
-              <motion.h1 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="text-4xl md:text-6xl font-serif font-bold tracking-[0.8em] text-[var(--text-primary)]"
-              >
-                AVNTAE
-              </motion.h1>
-              <motion.div 
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ duration: 1.8, ease: "easeInOut", delay: 0.2 }}
-                className="h-[1px] w-full bg-luxury-accent absolute -bottom-4 left-0 origin-left"
-              />
-            </div>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1, duration: 0.8 }}
-              className="mt-12 text-[10px] uppercase tracking-[0.4em] text-[var(--text-primary)] opacity-30 font-bold"
+            <motion.div
+              key="loader"
+              initial={{ opacity: 1 }}
+              exit={{
+                opacity: 0,
+                scale: 1.1,
+                transition: { duration: 0.8, ease: [0.65, 0, 0.35, 1] }
+              }}
+              className="fixed inset-0 z-[100] bg-[var(--bg-primary)] flex flex-col items-center justify-center pointer-events-auto"
             >
-              Curating Creative Excellence
-            </motion.p>
-          </motion.div>
-        )}
+              <div className="relative">
+                <motion.h1
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                  className="text-4xl md:text-6xl font-serif font-bold tracking-[0.8em] text-[var(--text-primary)]"
+                >
+                  AVNTAE
+                </motion.h1>
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 1.8, ease: "easeInOut", delay: 0.2 }}
+                  className="h-[1px] w-full bg-luxury-accent absolute -bottom-4 left-0 origin-left"
+                />
+              </div>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1, duration: 0.8 }}
+                className="mt-12 text-[10px] uppercase tracking-[0.4em] text-[var(--text-primary)] opacity-30 font-bold"
+              >
+                Curating Creative Excellence
+              </motion.p>
+            </motion.div>
+          )}
         </AnimatePresence>
 
         <motion.div className="scroll-progress z-[60] fixed top-0 left-0 right-0 h-1 bg-luxury-accent origin-left" style={{ scaleX }} />
-        
-        {!isLoading && <Navbar theme={theme} toggleTheme={toggleTheme} />}
-        
+
+        {!isLoading && !isAdmin && <Navbar theme={theme} toggleTheme={toggleTheme} />}
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: isLoading ? 0 : 1 }}
           transition={{ duration: 1, delay: 0.2 }}
           className="flex flex-col min-h-screen"
         >
-          <main className="flex-grow pt-24">
+          <main className={`flex-grow ${!isAdmin ? 'pt-24' : ''}`}>
             <AnimatePresence mode="wait">
               {/* @ts-ignore - React Router v7 RoutesProps doesn't explicitly include key, but AnimatePresence requires it */}
               <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Home />} />
                 <Route path="/designers" element={<DesignersPage />} />
+                <Route path="/designers/:designerId" element={<DesignerDetailPage />} />
                 <Route path="/how-it-works" element={<HowItWorksPage />} />
                 <Route path="/portfolio" element={<PortfolioPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/about" element={<AboutUsPage />} />
                 <Route path="/privacy" element={<PrivacyPolicyPage />} />
                 <Route path="/terms" element={<TermsOfServicePage />} />
+                <Route path="/admin" element={<AdminDashboardPage />} />
               </Routes>
             </AnimatePresence>
           </main>
-          <Footer />
+          {!isAdmin && <Footer />}
         </motion.div>
 
         <AnimatePresence>
-          {showBackToTop && (
+          {showBackToTop && !isAdmin && (
             <motion.button
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
               onClick={scrollToTop}
-              className="fixed bottom-8 right-8 z-[60] w-12 h-12 glass rounded-full flex items-center justify-center text-luxury-accent hover:bg-luxury-accent hover:text-[var(--bg-primary)] transition-all shadow-2xl overflow-hidden shadow-luxury-accent/20"
+              className="fixed bottom-8 right-8 z-[60] w-12 h-12 glass rounded-full flex items-center justify-center text-luxury-accent hover:backdrop-blur-md hover:bg-[rgba(255,255,255,0.03)] hover:text-[var(--text-primary)] transition-all shadow-2xl overflow-hidden shadow-luxury-accent/20"
             >
               <ChevronUp size={24} />
             </motion.button>

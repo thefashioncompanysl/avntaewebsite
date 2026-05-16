@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { Button } from './ui';
 
 interface NavbarProps {
   theme: 'dark' | 'light';
@@ -32,17 +33,16 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b ${
-        scrolled ? 'glass-dark py-4 shadow-2xl border-[var(--border-primary)]' : 'bg-transparent py-8 border-transparent'
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b ${scrolled ? 'glass-dark py-4 shadow-2xl border-[var(--border-primary)]' : 'bg-transparent py-8 border-transparent'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <Link 
-          to="/" 
+        <Link
+          to="/"
           onClick={(e) => {
             if (location.pathname === '/') {
               e.preventDefault();
-              window.location.reload();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }
           }}
           className="text-2xl font-serif tracking-widest font-bold text-[var(--text-primary)] group"
@@ -58,9 +58,14 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               <Link
                 key={link.name}
                 to={link.href}
-                className={`text-[10px] uppercase tracking-[0.3em] font-bold transition-all relative py-2 ${
-                  isActive ? 'text-luxury-accent' : 'text-[var(--text-primary)] opacity-40 hover:opacity-100'
-                }`}
+                onClick={(e) => {
+                  if (location.pathname === link.href) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                }}
+                className={`text-[10px] uppercase tracking-[0.3em] font-bold transition-all relative py-2 ${isActive ? 'text-luxury-accent' : 'text-[var(--text-primary)] opacity-40 hover:opacity-100'
+                  }`}
               >
                 {link.name}
                 {isActive && (
@@ -72,30 +77,41 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               </Link>
             )
           })}
-          
-          <button
+
+          <Button
+            type="button"
+            variant="ghost"
+            className="group h-10 px-4 py-0 rounded-full text-luxury-accent border-[var(--border-primary)] bg-[var(--text-primary)]/5 hover:backdrop-blur-sm hover:bg-[rgba(255,255,255,0.08)] hover:text-[var(--text-primary)] relative flex items-center gap-2 tracking-[0.18em]"
             onClick={toggleTheme}
-            className="w-10 h-10 border border-[var(--border-primary)] rounded-full flex items-center justify-center text-luxury-accent hover:bg-luxury-accent hover:text-[var(--bg-primary)] transition-all group relative"
             title="Toggle Theme (Ctrl/Cmd + T)"
+            aria-label="Toggle theme"
           >
             {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-[8px] whitespace-nowrap opacity-0 group-hover:opacity-40 transition-opacity uppercase tracking-widest font-bold">
+            <span className="text-[9px] font-bold uppercase">
               {theme === 'dark' ? 'Light' : 'Dark'}
             </span>
-          </button>
+          </Button>
         </div>
 
         {/* Mobile Toggle */}
         <div className="flex items-center gap-4 md:hidden">
-          <button
+          <Button
+            type="button"
+            variant="ghost"
+            className="w-10 h-10 p-0 rounded-full text-luxury-accent border-[var(--border-primary)] bg-[var(--text-primary)]/5"
             onClick={toggleTheme}
-            className="w-10 h-10 border border-[var(--border-primary)] rounded-full flex items-center justify-center text-luxury-accent"
+            aria-label="Toggle theme"
           >
             {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-          </button>
-          <button onClick={() => setIsOpen(!isOpen)} className="text-[var(--text-primary)] opacity-70 hover:opacity-100 transition-opacity">
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            className="p-0 text-[var(--text-primary)] opacity-70 hover:opacity-100"
+            onClick={() => setIsOpen(!isOpen)}
+          >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -107,9 +123,8 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             animate={{ opacity: 1, scaleY: 1 }}
             exit={{ opacity: 0, scaleY: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className={`md:hidden overflow-hidden origin-top absolute top-full left-0 w-full border-b border-[var(--border-primary)] ${
-              scrolled ? 'glass-dark' : 'bg-[var(--bg-primary)] shadow-2xl'
-            }`}
+            className={`md:hidden overflow-hidden origin-top absolute top-full left-0 w-full border-b border-[var(--border-primary)] ${scrolled ? 'glass-dark' : 'bg-[var(--bg-primary)] shadow-2xl'
+              }`}
           >
             <div className="flex flex-col items-center py-12 gap-8">
               {navLinks.map((link) => {
@@ -118,10 +133,15 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                   <Link
                     key={link.name}
                     to={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`text-lg uppercase tracking-[0.4em] font-light transition-all ${
-                      isActive ? 'text-luxury-accent' : 'text-[var(--text-primary)] opacity-40 hover:opacity-100'
-                    }`}
+                    onClick={(e) => {
+                      setIsOpen(false);
+                      if (location.pathname === link.href) {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                    }}
+                    className={`text-lg uppercase tracking-[0.4em] font-light transition-all ${isActive ? 'text-luxury-accent' : 'text-[var(--text-primary)] opacity-40 hover:opacity-100'
+                      }`}
                   >
                     {link.name}
                   </Link>

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export const Card = ({ children, className }: { children: React.ReactNode; className?: string }) => (
-  <div className={`glass rounded-[2rem] border border-[var(--border-primary)] overflow-hidden transition-all duration-700 hover:border-luxury-accent/30 group ${className}`}>
+  <div className={`rounded-[2rem] border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] backdrop-blur-[56px] backdrop-saturate-[85%] backdrop-grayscale-[30%] overflow-hidden transition-all duration-700 hover:border-luxury-accent/30 group ${className}`}>
     {children}
   </div>
 );

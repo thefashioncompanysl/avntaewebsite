@@ -1,7 +1,6 @@
 import { motion } from 'motion/react';
 import AnimatedSection from './AnimatedSection';
-import { Reveal } from './ui/Reveal';
-import { Card } from './ui/Card';
+import { Reveal, Card } from './ui';
 
 const PORTFOLIO = [
   { id: 1, title: 'Summer Collection 2024', category: 'Luxury Wear', image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop' },
@@ -35,33 +34,35 @@ export default function Portfolio() {
               key={item.id}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: index * 0.04, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               viewport={{ once: true }}
             >
-              <Card className="aspect-[4/5] cursor-pointer">
+                <Card className="aspect-[4/5] cursor-pointer will-change-opt">
                 <div className="relative h-full">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-[2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
                     referrerPolicy="no-referrer"
+                      loading="lazy"
+                      decoding="async"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-[var(--bg-primary)]/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out flex flex-col justify-end p-10 backdrop-blur-[2px]">
+                  <div className="absolute inset-0 bg-[rgba(8,3,18,0.08)] opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out flex flex-col justify-end p-10 backdrop-blur-[2px] group-hover:backdrop-blur-xl group-hover:bg-[rgba(8,3,18,0.18)]">
                     <div className="overflow-hidden">
-                      <motion.h3 
+                      <motion.h3
                         className="text-2xl md:text-3xl font-serif text-[var(--text-primary)] transform translate-y-12 group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.2,1,0.3,1)]"
                       >
                         {item.title}
                       </motion.h3>
                     </div>
-                    
+
                     <div className="overflow-hidden mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-500">
                       <span className="text-[8px] uppercase tracking-[0.4em] font-mono font-bold text-[var(--text-primary)]/60 flex items-center gap-2">
                         View Project <div className="w-4 h-[1px] bg-luxury-accent"></div>
                       </span>
                     </div>
 
-                    <motion.div 
+                    <motion.div
                       className="w-0 h-[1px] bg-luxury-accent mt-4 group-hover:w-full transition-all duration-1000 delay-300"
                     />
                   </div>

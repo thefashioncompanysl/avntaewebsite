@@ -1,4 +1,4 @@
-import { Reveal } from './ui/Reveal';
+import { Reveal, Card } from './ui';
 import { motion } from 'motion/react';
 
 export default function AboutUs() {
@@ -20,8 +20,8 @@ export default function AboutUs() {
 
         <div className="space-y-16">
           <Reveal width="100%">
-            <div className="glass p-10 md:p-16 rounded-2xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-luxury-accent/5 rounded-full blur-3xl -z-10 group-hover:bg-luxury-accent/10 transition-colors duration-1000"></div>
+            <Card className="p-10 md:p-16 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-luxury-accent/5 rounded-full blur-3xl -z-10 transition-colors duration-1000 group-hover:backdrop-blur-xl group-hover:bg-[rgba(255,255,255,0.02)]"></div>
               <h2 className="text-3xl font-serif mb-6 text-[var(--text-primary)]">Our Vision</h2>
               <p className="text-[var(--text-primary)] opacity-70 leading-relaxed mb-6">
                 AVNTAE was born from a singular vision: to create a frictionless, highly curated ecosystem where world-class fashion designers can connect directly with global enterprises, luxury houses, and visionary brands. We believe that true creative excellence deserves a platform that matches its quality.
@@ -29,12 +29,12 @@ export default function AboutUs() {
               <p className="text-[var(--text-primary)] opacity-70 leading-relaxed">
                 We are not just a directory; we are a meticulously vetted network. Every talent on our platform has been reviewed for their extraordinary vision, technical mastery, and ability to push the boundaries of modern fashion.
               </p>
-            </div>
+            </Card>
           </Reveal>
 
           <Reveal width="100%">
-            <div className="glass p-10 md:p-16 rounded-2xl relative overflow-hidden group">
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-luxury-accent/5 rounded-full blur-3xl -z-10 group-hover:bg-luxury-accent/10 transition-colors duration-1000"></div>
+            <Card className="p-10 md:p-16 relative overflow-hidden group">
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-luxury-accent/5 rounded-full blur-3xl -z-10 transition-colors duration-1000 group-hover:backdrop-blur-xl group-hover:bg-[rgba(255,255,255,0.02)]"></div>
               <h2 className="text-3xl font-serif mb-6 text-[var(--text-primary)]">The Standard of Excellence</h2>
               <p className="text-[var(--text-primary)] opacity-70 leading-relaxed mb-6">
                 Our selection process is famously rigorous. We look beyond basic portfolios, analyzing the conceptual depth, material understanding, and cultural impact of every designer's work. This ensures that when a brand partners with an AVNTAE designer, they are engaging with the absolute pinnacle of industry talent.
@@ -42,7 +42,7 @@ export default function AboutUs() {
               <p className="text-[var(--text-primary)] opacity-70 leading-relaxed">
                 Whether you are a legacy luxury house looking for fresh direction, or a bold new enterprise seeking an iconic visual identity, AVNTAE provides the bridge to the creators who will define tomorrow's aesthetic.
               </p>
-            </div>
+            </Card>
           </Reveal>
         </div>
       </div>

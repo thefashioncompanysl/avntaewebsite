@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
         >
           <h1 className="text-4xl md:text-6xl font-serif mb-6 text-[var(--text-primary)]">Privacy Policy</h1>
           <div className="h-[1px] w-24 bg-luxury-accent mb-8"></div>
-          <p className="text-[var(--text-primary)] opacity-50 text-sm uppercase tracking-widest font-bold">Last Updated: May 2026</p>
+                              <p className="text-[var(--text-primary)] opacity-50 text-sm uppercase tracking-widest font-bold">Last Updated: May 2026</p>
         </motion.div>
 
         <div className="space-y-12 text-[var(--text-primary)] opacity-80 leading-relaxed font-light">

@@ -1,8 +1,7 @@
 import { motion } from 'motion/react';
 import { Sparkles, MessageSquare, Briefcase, CheckCircle } from 'lucide-react';
 import AnimatedSection from './AnimatedSection';
-import { Reveal } from './ui/Reveal';
-import { Card } from './ui/Card';
+import { Reveal, Card } from './ui';
 
 const STEPS = [
   { id: 1, title: 'Vision Submission', description: 'Enter our ecosystem by sharing your creative requirements and project scope.', icon: MessageSquare },
@@ -35,15 +34,15 @@ export default function HowItWorks() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.15 }}
+              transition={{ duration: 0.7, delay: index * 0.05 }}
             >
               <Card className="relative h-full">
                 <div className="p-10 relative z-10">
                   <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                     <step.icon size={120} strokeWidth={0.5} />
                   </div>
-                  
-                  <div className="w-14 h-14 bg-luxury-accent/5 rounded-2xl flex items-center justify-center mb-10 text-luxury-accent group-hover:bg-luxury-accent group-hover:text-[var(--bg-primary)] transition-all duration-500">
+
+                  <div className="w-14 h-14 bg-luxury-accent/5 rounded-2xl flex items-center justify-center mb-10 text-luxury-accent group-hover:backdrop-blur-md group-hover:bg-[rgba(255,255,255,0.02)] group-hover:text-[var(--text-primary)] transition-all duration-400 will-change-opt">
                     <step.icon size={24} />
                   </div>
                   <h3 className="text-2xl font-serif mb-4 flex items-center gap-4 group-hover:translate-x-2 transition-transform duration-700">

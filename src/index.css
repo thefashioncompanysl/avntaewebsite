@@ -6,13 +6,18 @@
   --font-serif: "Outfit", ui-serif, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-royal-purple: #1e003c; /* Darker, more regal */
-  --color-luxury-accent: #d4af37; /* Gold accent */
-  --color-amethyst-light: #f8f4ff; /* Slightly cooler light background */
-  
+  --color-royal-purple: #1e003c;
+  /* Darker, more regal */
+  --royal-purple: var(--color-royal-purple);
+  --color-luxury-accent: #d4af37;
+  /* Gold accent */
+  --color-amethyst-light: #f8f4ff;
+  /* Slightly cooler light background */
+
   --bg-primary: var(--color-royal-purple);
   --text-primary: #ffffff;
-  --border-primary: rgba(212, 175, 55, 0.15); /* Gold-tinted border */
+  --border-primary: rgba(212, 175, 55, 0.15);
+  /* Gold-tinted border */
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(212, 175, 55, 0.1);
   --hero-brightness: 0.4;
@@ -27,7 +32,7 @@
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(0, 0, 0, 0.05);
   --hero-brightness: 0.95;
-  
+
   /* Render fonts thicker for better contrast in light mode */
   -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
@@ -39,12 +44,29 @@
 }
 
 .light .glass {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(44px) saturate(110%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.light .text-white\/72, 
-.light .text-white\/68, 
+.designer-image-overlay {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.36), transparent);
+}
+
+.light .designer-image-overlay {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.54), transparent);
+}
+
+.designer-card-hover-overlay {
+  background: rgba(10, 8, 18, 0.56);
+}
+
+.light .designer-card-hover-overlay {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.light .text-white\/72,
+.light .text-white\/68,
 .light .text-white\/75,
 .light .text-white\/70 {
   color: rgba(0, 0, 0, 0.7);
@@ -79,22 +101,52 @@
 
 .light .theweb-grid-pattern {
   opacity: 0.1;
-  background-image: 
+  background-image:
     linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
 }
 
 /* Boost text readability in light mode globally */
-.light .font-light { font-weight: 400; }
-.light .opacity-20 { opacity: 0.4; }
-.light .opacity-30 { opacity: 0.55; }
-.light .opacity-40 { opacity: 0.7; }
-.light .opacity-50 { opacity: 0.8; }
-.light .opacity-60 { opacity: 0.85; }
-.light .opacity-70 { opacity: 0.9; }
-.light .opacity-80 { opacity: 0.95; }
-.light .opacity-90 { opacity: 1; }
-.light input::placeholder, .light textarea::placeholder { opacity: 0.4; }
+.light .font-light {
+  font-weight: 400;
+}
+
+.light .opacity-20 {
+  opacity: 0.4;
+}
+
+.light .opacity-30 {
+  opacity: 0.55;
+}
+
+.light .opacity-40 {
+  opacity: 0.7;
+}
+
+.light .opacity-50 {
+  opacity: 0.8;
+}
+
+.light .opacity-60 {
+  opacity: 0.85;
+}
+
+.light .opacity-70 {
+  opacity: 0.9;
+}
+
+.light .opacity-80 {
+  opacity: 0.95;
+}
+
+.light .opacity-90 {
+  opacity: 1;
+}
+
+.light input::placeholder,
+.light textarea::placeholder {
+  opacity: 0.4;
+}
 
 @layer base {
   body {
@@ -102,7 +154,12 @@
     scroll-behavior: smooth;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-serif tracking-tight;
   }
 
@@ -128,6 +185,7 @@
 ::-webkit-scrollbar {
   display: none;
 }
+
 * {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -154,10 +212,11 @@
 
 /* Glassmorphism utility */
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(15px) saturate(180%);
+  background: transparent;
+  backdrop-filter: blur(56px) saturate(90%) grayscale(30%);
   border: 1px solid var(--glass-border);
 }
+
 .bg-theweb {
   background-color: var(--bg-primary);
 }
@@ -168,23 +227,23 @@
   inset: 0;
   z-index: -10;
   pointer-events: none;
-  background-image: 
+  background-image:
     radial-gradient(circle at top left, rgba(212, 175, 55, 0.15), transparent 32%),
-    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.1), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.08), transparent 30%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 100% 32px;
 }
 
 .light .theweb-bg-pattern {
-  background-image: 
+  background-image:
     radial-gradient(circle at top left, rgba(212, 175, 55, 0.08), transparent 32%),
-    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.05), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(0, 0, 0, 0.04), transparent 30%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
 }
 
 .light .theweb-grid-pattern {
   opacity: 0.15;
-  background-image: 
+  background-image:
     linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
 }
@@ -196,7 +255,7 @@
   z-index: -10;
   pointer-events: none;
   opacity: 0.4;
-  background-image: 
+  background-image:
     linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 64px 64px;
@@ -228,6 +287,11 @@
   @apply bg-transparent border-b border-[var(--border-primary)] py-4 px-0 w-full outline-none transition-all duration-500 focus:border-luxury-accent font-light tracking-wide text-sm placeholder:opacity-30;
 }
 
+/* Hint to the browser for animated elements to improve paint performance */
+.will-change-opt {
+  will-change: transform, opacity;
+}
+
 @keyframes shine {
   to {
     background-position: 200% center;
@@ -238,14 +302,19 @@
   overflow: hidden;
 }
 
-.reveal-text > * {
+.reveal-text>* {
   display: block;
 }
 
 /* Marquee Animation */
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee {
@@ -267,4 +336,3 @@
   transform-origin: 0%;
   z-index: 100;
 }
-

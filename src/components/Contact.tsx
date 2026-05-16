@@ -1,21 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, CheckCircle, Mail, MapPin } from 'lucide-react';
 import AnimatedSection from './AnimatedSection';
-import { Reveal } from './ui/Reveal';
-import { Input, Textarea, Label } from './ui/Input';
-import { Button } from './ui/Button';
+import { Reveal, Input, Textarea, Label, Button } from './ui';
+import { supabase } from '../lib/supabaseClient';
+import { useLocation } from 'react-router-dom';
 
 export default function Contact() {
-  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const state = (location as any).state as { message?: string } | null;
+  const initialEmail = params.get('email') || '';
+  const initialMessage = (state && state.message) || params.get('message') || '';
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitError, setSubmitError] = useState('');
+
+  const [nameVal, setNameVal] = useState('');
+  const [emailVal, setEmailVal] = useState(initialEmail);
+  const [messageVal, setMessageVal] = useState(initialMessage);
+
+  useEffect(() => {
+    const state = (location as any).state as { message?: string } | null;
+    const msg = (state && state.message) || new URLSearchParams(location.search).get('message') || '';
+    setMessageVal(msg);
+    setEmailVal(new URLSearchParams(location.search).get('email') || '');
+    setNameVal('');
+    setErrors({});
+    setSubmitError('');
+    setFormState('idle');
+  }, [location.key, location.search, (location as any).state?.message]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const message = formData.get('message') as string;
+    const name = nameVal.trim();
+    const email = emailVal.trim();
+    const message = messageVal.trim();
 
     const newErrors: Record<string, string> = {};
     if (!name) newErrors.name = 'Please provide your name';
@@ -29,11 +50,32 @@ export default function Contact() {
 
     setErrors({});
     setFormState('submitting');
-    
-    // Simulate API call
-    setTimeout(() => {
-      setFormState('success');
-    }, 2000);
+    setSubmitError('');
+
+    const { error } = await supabase.from('contact_messages').insert([{ name, email, message }]);
+
+    if (error) {
+      setFormState('error');
+      setSubmitError(error.message || 'Unable to send your inquiry right now.');
+      return;
+    }
+
+    // Try to notify via serverless webhook so messages are delivered immediately.
+    try {
+      await fetch('/api/send_email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      });
+    } catch (e) {
+      // Do not surface server-send errors to user; the DB trigger will still enqueue a job.
+      console.warn('Webhook send failed', e);
+    }
+
+    setNameVal('');
+    setEmailVal('');
+    setMessageVal('');
+    setFormState('success');
   };
 
   return (
@@ -47,15 +89,15 @@ export default function Contact() {
             <p className="opacity-60 font-light mb-16 leading-relaxed text-lg">
               Whether you are looking to hire a visionary or showcase your craft, our concierge team is here to assist.
             </p>
-            
+
             <div className="space-y-8">
               <div className="flex items-center gap-6">
                 <div className="w-12 h-12 rounded-full bg-[var(--bg-primary)]/5 flex items-center justify-center">
                   <Mail size={20} className="opacity-60" />
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold mb-1">Email Our Concierge</p>
-                  <p className="text-lg font-serif">concierge@avntae.com</p>
+                  <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold mb-1">Private Inbox</p>
+                  <p className="text-lg font-serif">Support@avntae.com</p>
                 </div>
               </div>
               <div className="flex items-center gap-6">
@@ -64,7 +106,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-widest opacity-40 font-bold mb-1">Global Headquarters</p>
-                  <p className="text-lg font-serif italic">Rue Saint-Honoré, Paris</p>
+                  <p className="text-lg font-serif italic">Colombo, Sri Lanka</p>
                 </div>
               </div>
             </div>
@@ -74,7 +116,7 @@ export default function Contact() {
         <div className="md:w-7/12 p-12 md:p-20 relative">
           <AnimatePresence mode="wait">
             {formState === 'success' ? (
-              <motion.div 
+              <motion.div
                 key="success"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -90,16 +132,16 @@ export default function Contact() {
                     Connecting your vision with excellence. Our team will review your submission and reach out within 24 hours.
                   </p>
                 </div>
-                <Button 
+                <Button
                   onClick={() => setFormState('idle')}
                 >
                   Send Another Inquiry
                 </Button>
               </motion.div>
             ) : (
-              <motion.form 
+              <motion.form
                 key="form"
-                onSubmit={handleSubmit} 
+                onSubmit={handleSubmit}
                 className="space-y-10"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -112,6 +154,8 @@ export default function Contact() {
                     type="text"
                     autoComplete="name"
                     placeholder="Alexander McQueen"
+                    value={nameVal}
+                    onChange={(e) => setNameVal(e.target.value)}
                     className={errors.name ? 'border-red-500' : ''}
                   />
                   {errors.name && <p className="text-[10px] text-red-500 tracking-widest">{errors.name}</p>}
@@ -124,6 +168,8 @@ export default function Contact() {
                     type="email"
                     autoComplete="email"
                     placeholder="name@company.com"
+                    value={emailVal}
+                    onChange={(e) => setEmailVal(e.target.value)}
                     className={errors.email ? 'border-red-500' : ''}
                   />
                   {errors.email && <p className="text-[10px] text-red-500 tracking-widest">{errors.email}</p>}
@@ -134,6 +180,8 @@ export default function Contact() {
                   <Textarea
                     name="message"
                     placeholder="Tell us about your next visionary project..."
+                    value={messageVal}
+                    onChange={(e) => setMessageVal(e.target.value)}
                     className={errors.message ? 'border-red-500' : ''}
                   />
                   {errors.message && <p className="text-[10px] text-red-500 tracking-widest">{errors.message}</p>}
@@ -146,17 +194,23 @@ export default function Contact() {
                 >
                   {formState === 'submitting' ? (
                     <div className="flex items-center gap-2">
-                       <motion.div 
-                         animate={{ rotate: 360 }}
-                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                         className="w-4 h-4 border-2 border-[var(--bg-primary)]/30 border-t-[var(--bg-primary)] rounded-full"
-                       />
-                       <span>Transmitting</span>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="w-4 h-4 border-2 border-[var(--bg-primary)]/30 border-t-[var(--bg-primary)] rounded-full"
+                      />
+                      <span>Transmitting</span>
                     </div>
                   ) : (
                     <>Submit Inquiry <Send size={14} className="ml-3" /></>
                   )}
                 </Button>
+
+                {formState === 'error' && submitError && (
+                  <p className="text-sm text-red-500 tracking-wide leading-relaxed">
+                    {submitError}
+                  </p>
+                )}
               </motion.form>
             )}
           </AnimatePresence>
