@@ -29,6 +29,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
     { name: 'How it Works', href: '/how-it-works' },
     { name: 'Portfolio', href: '/portfolio' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Admin', href: '/admin' },
   ];
 
   return (
