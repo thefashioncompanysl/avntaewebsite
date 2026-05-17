@@ -1,8 +1,11 @@
 ﻿import { createClient } from '@supabase/supabase-js'
 
 export const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+export const supabasePublishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 export const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
+const defaultPublishableKey = 'sb_publishable_rHWLfLFjs-7knqrlchi2eg_xJtdl5Yp'
+const supabaseKey = supabasePublishableKey || defaultPublishableKey || supabaseAnonKey
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseKey)
 
 const createNoopResult = (errorMessage: string) => Promise.resolve({ data: null, error: { message: errorMessage } })
 
@@ -30,7 +33,7 @@ const noopFrom = () => ({
 })
 
 export const supabase = isSupabaseConfigured
-  ? createClient(supabaseUrl!, supabaseAnonKey!)
+  ? createClient(supabaseUrl!, supabaseKey!)
   : {
       auth: noopAuth,
       storage: noopStorage,
