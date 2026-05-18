@@ -38,6 +38,7 @@ export default function Footer() {
             <ul className="space-y-4 text-xs text-[var(--text-primary)] opacity-50 font-light pt-8">
               <li><Link to="/privacy" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">Terms of Service</Link></li>
+              <li><Link to="/admin" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">Admin</Link></li>
             </ul>
           </div>
         </div>

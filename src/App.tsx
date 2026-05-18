@@ -80,7 +80,6 @@ const routeCards: RouteCard[] = [
   { href: "/portfolio", label: "Portfolio", text: "Showcase of masterworks" },
   { href: "/contact", label: "Contact", text: "Partner with our agency" },
   { href: "/about", label: "About Us", text: "Our mission and heritage" },
-  { href: "/admin", label: "Admin", text: "Open the private admin panel" },
 ];
 
 const roleCards = [
@@ -142,11 +141,6 @@ function Home() {
               <Link to="/contact">
                 <Button variant="outline" size="lg" className="w-full sm:w-auto">
                   Partner with Us
-                </Button>
-              </Link>
-              <Link to="/admin">
-                <Button variant="ghost" size="lg" className="w-full sm:w-auto border border-[var(--border-primary)]">
-                  Admin Panel
                 </Button>
               </Link>
             </div>
