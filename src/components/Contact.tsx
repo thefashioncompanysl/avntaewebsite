@@ -54,13 +54,17 @@ export default function Contact() {
 
     try {
       if (!supabaseUrl || !supabaseAnonKey) {
-        throw new Error('Supabase is not configured. Please check environment variables.');
+        throw new Error('Supabase configuration missing. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env');
       }
 
       // Construct the Edge Function URL
       const functionUrl = `${supabaseUrl}/functions/v1/send-contact`;
 
-      console.log('Sending to:', functionUrl);
+      console.log('📤 Sending contact to:', functionUrl);
+      console.log('📋 Payload:', { name, email, message });
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
       const response = await fetch(functionUrl, {
         method: 'POST',
@@ -69,26 +73,53 @@ export default function Contact() {
           'Authorization': `Bearer ${supabaseAnonKey}`,
         },
         body: JSON.stringify({ name, email, message }),
+        signal: controller.signal,
       });
 
-      const result = await response.json();
+      clearTimeout(timeoutId);
+
+      let result;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        result = await response.json();
+      } else {
+        result = { error: await response.text() };
+      }
+
+      console.log('📬 Response status:', response.status);
+      console.log('📬 Response:', result);
 
       if (!response.ok) {
-        console.error('Error response:', result);
+        console.error('❌ Error response:', result);
         setFormState('error');
-        setSubmitError(result.error || 'Unable to send your inquiry right now. Please try again.');
+        const errorMsg = result.error || result.message || `Server error (${response.status})`;
+        setSubmitError(errorMsg);
         return;
       }
 
-      console.log('Success:', result);
+      console.log('✅ Success:', result);
       setNameVal('');
       setEmailVal('');
       setMessageVal('');
       setFormState('success');
     } catch (error) {
-      console.error('Submit error:', error);
+      let errorMsg = 'Network error. Please try again.';
+      
+      if (error instanceof TypeError) {
+        if (error.message.includes('fetch')) {
+          errorMsg = 'Failed to connect to server. Check if Edge Function is deployed.';
+        }
+      } else if (error instanceof DOMException) {
+        if (error.name === 'AbortError') {
+          errorMsg = 'Request timeout. Server took too long to respond.';
+        }
+      } else if (error instanceof Error) {
+        errorMsg = error.message;
+      }
+      
+      console.error('❌ Submit error:', error);
       setFormState('error');
-      setSubmitError(error instanceof Error ? error.message : 'Network error. Please check your connection and try again.');
+      setSubmitError(errorMsg);
     }
   };
 
