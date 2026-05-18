@@ -52,30 +52,39 @@ export default function Contact() {
     setFormState('submitting');
     setSubmitError('');
 
-    const { error } = await supabase.from('contact_messages').insert([{ name, email, message }]);
-
-    if (error) {
-      setFormState('error');
-      setSubmitError(error.message || 'Unable to send your inquiry right now.');
-      return;
-    }
-
-    // Try to notify via serverless webhook so messages are delivered immediately.
     try {
-      await fetch('/api/send_email', {
+      // Get the Supabase project URL from the client
+      const projectUrl = supabase.rest.url.replace('/rest/v1', '');
+      const anonKey = (window as any).__SUPABASE_ANON_KEY || 
+        document.querySelector('meta[name="supabase-anon-key"]')?.getAttribute('content');
+
+      // Call the Edge Function
+      const response = await fetch(`${projectUrl}/functions/v1/send-contact`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${anonKey}`,
+        },
         body: JSON.stringify({ name, email, message }),
       });
-    } catch (e) {
-      // Do not surface server-send errors to user; the DB trigger will still enqueue a job.
-      console.warn('Webhook send failed', e);
-    }
 
-    setNameVal('');
-    setEmailVal('');
-    setMessageVal('');
-    setFormState('success');
+      const result = await response.json();
+
+      if (!response.ok) {
+        setFormState('error');
+        setSubmitError(result.error || 'Unable to send your inquiry right now. Please try again.');
+        return;
+      }
+
+      setNameVal('');
+      setEmailVal('');
+      setMessageVal('');
+      setFormState('success');
+    } catch (error) {
+      setFormState('error');
+      setSubmitError('Network error. Please check your connection and try again.');
+      console.error('Submit error:', error);
+    }
   };
 
   return (
