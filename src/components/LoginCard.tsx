@@ -19,8 +19,8 @@ export const LoginCard: React.FC<Props> = ({ email, password, onEmailChange, onP
                 <p className="text-sm opacity-70 mt-1">Enter your credentials to access your account.</p>
             </CardHeader>
 
-            <CardContent>
-                <form onSubmit={onLogin}>
+            <form onSubmit={onLogin}>
+                <CardContent>
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="email">Email</Label>
@@ -31,13 +31,13 @@ export const LoginCard: React.FC<Props> = ({ email, password, onEmailChange, onP
                             <Input id="password" type="password" placeholder="Enter your password" value={password} onChange={(e) => onPasswordChange(e.target.value)} />
                         </div>
                     </div>
-                </form>
-            </CardContent>
+                </CardContent>
 
-            <CardFooter className="flex justify-between">
-                <Button variant="outline" onClick={onRegister}>Register</Button>
-                <Button type="submit" onClick={(e) => onLogin(e as any)} >Login</Button>
-            </CardFooter>
+                <CardFooter className="flex justify-between">
+                    <Button variant="outline" type="button" onClick={onRegister}>Register</Button>
+                    <Button type="submit">Login</Button>
+                </CardFooter>
+            </form>
 
             <BorderBeam duration={8} size={100} />
         </Card>
