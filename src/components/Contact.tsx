@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Send, CheckCircle, Mail, MapPin } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import AnimatedSection from './AnimatedSection';
 import { Reveal, Input, Textarea, Label, Button } from './ui';
-import { supabaseUrl } from '../lib/supabaseClient';
 import { useLocation } from 'react-router-dom';
 
 export default function Contact() {
@@ -53,70 +53,34 @@ export default function Contact() {
     setSubmitError('');
 
     try {
-      if (!supabaseUrl) {
-        throw new Error('Supabase configuration missing. Check VITE_SUPABASE_URL in your .env');
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('EmailJS configuration missing. Set VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY.');
       }
 
-      // Construct the Edge Function URL
-      const functionUrl = `${supabaseUrl}/functions/v1/send-contact`;
-
-      console.log('📤 Sending contact to:', functionUrl);
-      console.log('📋 Payload:', { name, email, message });
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-
-      const response = await fetch(functionUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const resp = await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: name,
+          from_email: email,
+          reply_to: email,
+          message,
+          to_email: 'avntae7@gmail.com',
         },
-        body: JSON.stringify({ name, email, message }),
-        signal: controller.signal,
-      });
+        publicKey
+      );
+      console.log('EmailJS send response:', resp);
 
-      clearTimeout(timeoutId);
-
-      let result;
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        result = await response.json();
-      } else {
-        result = { error: await response.text() };
-      }
-
-      console.log('📬 Response status:', response.status);
-      console.log('📬 Response:', result);
-
-      if (!response.ok) {
-        console.error('❌ Error response:', result);
-        setFormState('error');
-        const errorMsg = result.error || result.message || `Server error (${response.status})`;
-        setSubmitError(errorMsg);
-        return;
-      }
-
-      console.log('✅ Success:', result);
       setNameVal('');
       setEmailVal('');
       setMessageVal('');
       setFormState('success');
     } catch (error) {
-      let errorMsg = 'Network error. Please try again.';
-      
-      if (error instanceof TypeError) {
-        if (error.message.includes('fetch')) {
-          errorMsg = 'Failed to connect to server. Check if Edge Function is deployed.';
-        }
-      } else if (error instanceof DOMException) {
-        if (error.name === 'AbortError') {
-          errorMsg = 'Request timeout. Server took too long to respond.';
-        }
-      } else if (error instanceof Error) {
-        errorMsg = error.message;
-      }
-      
-      console.error('❌ Submit error:', error);
+      const errorMsg = error instanceof Error ? error.message : 'Failed to send your message. Please try again.';
       setFormState('error');
       setSubmitError(errorMsg);
     }
