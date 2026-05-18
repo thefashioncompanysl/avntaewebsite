@@ -455,7 +455,7 @@ export default function AdminDashboard() {
                 bio: formData.bio || '',
                 image: imageUrl || '',
                 category: (formData.category || 'Professional') as DesignerCategory,
-                approved: formData.approved || false,
+                approved: formData.approved !== undefined ? formData.approved : true,
             };
 
             if (editingId) {

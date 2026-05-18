@@ -60,19 +60,34 @@ export const DesignersProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   } as Designer));
 
   const fetchPublicDesignerProfiles = async () => {
-    const response = await fetch(`${supabaseUrl}/rest/v1/designer_profiles?select=*`, {
-      headers: {
-        apikey: supabaseAnonKey,
-        Authorization: `Bearer ${supabaseAnonKey}`,
-        Accept: 'application/json',
-      },
-    });
+    try {
+      // Try to fetch from the approved public view/table
+      const response = await fetch(`${supabaseUrl}/rest/v1/designer_profiles?select=*`, {
+        headers: {
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+          Accept: 'application/json',
+        },
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to load public designers (${response.status})`);
+      if (response.ok) {
+        return response.json();
+      }
+
+      // Fallback: fetch approved designers directly from designers table
+      const { data, error } = await supabase
+        .from('designers')
+        .select('*')
+        .or('is_approved.eq.true,approved.eq.true')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    } catch (err) {
+      console.warn('Error fetching public designers:', err);
+      // Fallback to empty array on error
+      return [];
     }
-
-    return response.json();
   };
 
   const fetchDesigners = async (useAdminAccess: boolean) => {
@@ -124,8 +139,8 @@ export const DesignersProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           image_url: designer.image,
           image: designer.image,
           category: designer.category,
-          is_approved: designer.approved || false,
-          approved: designer.approved || false,
+          is_approved: designer.approved !== false ? true : false,
+          approved: designer.approved !== false ? true : false,
         }])
         .select()
         .single();
@@ -163,8 +178,8 @@ export const DesignersProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           image_url: designer.image || '',
           image: designer.image || '',
           category: designer.category || 'Professional',
-          is_approved: designer.approved || false,
-          approved: designer.approved || false,
+          is_approved: designer.approved !== false ? true : false,
+          approved: designer.approved !== false ? true : false,
         }])
         .select()
         .single();
