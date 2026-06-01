@@ -370,7 +370,21 @@ export const DesignersProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 export const useDesigners = () => {
   const context = useContext(DesignersContext);
   if (context === undefined) {
-    throw new Error('useDesigners must be used within a DesignersProvider');
+    // Provide safe defaults when provider is not present (designers section removed)
+    return {
+      designers: [] as Designer[],
+      activeDesigners: [] as Designer[],
+      loading: false,
+      addDesigner: async () => {},
+      createDesignerRecord: async () => null,
+      updateDesigner: async () => {},
+      deleteDesigner: async () => {},
+      bulkDelete: async () => {},
+      bulkUpdate: async () => {},
+      toggleApproval: async () => {},
+      updateCategory: async () => {},
+      refreshDesigners: async () => {},
+    } as DesignersContextType;
   }
   return context;
 };

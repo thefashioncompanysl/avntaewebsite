@@ -25,7 +25,6 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Designers', href: '/designers' },
     { name: 'How it Works', href: '/how-it-works' },
     { name: 'Portfolio', href: '/portfolio' },
     { name: 'Contact', href: '/contact' },
@@ -81,15 +80,13 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           <Button
             type="button"
             variant="ghost"
-            className="group h-10 px-4 py-0 rounded-full text-luxury-accent border-[var(--border-primary)] bg-[var(--text-primary)]/5 hover:backdrop-blur-sm hover:bg-[rgba(255,255,255,0.08)] hover:text-[var(--text-primary)] relative flex items-center gap-2 tracking-[0.18em]"
+            className="group h-10 w-10 p-0 rounded-full text-luxury-accent border-[var(--border-primary)] bg-[var(--text-primary)]/6 hover:backdrop-blur-sm hover:bg-[rgba(255,255,255,0.08)] hover:text-[var(--text-primary)] relative flex items-center justify-center"
             onClick={toggleTheme}
             title="Toggle Theme (Ctrl/Cmd + T)"
             aria-label="Toggle theme"
           >
-            {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
-            <span className="text-[9px] font-bold uppercase">
-              {theme === 'dark' ? 'Light' : 'Dark'}
-            </span>
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            <span className="sr-only">Toggle theme</span>
           </Button>
         </div>
 
@@ -98,11 +95,11 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           <Button
             type="button"
             variant="ghost"
-            className="w-10 h-10 p-0 rounded-full text-luxury-accent border-[var(--border-primary)] bg-[var(--text-primary)]/5"
+            className="w-10 h-10 p-0 rounded-full text-luxury-accent border-[var(--border-primary)] bg-[var(--text-primary)]/6"
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
-            {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           </Button>
           <Button
             type="button"

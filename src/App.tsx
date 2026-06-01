@@ -4,10 +4,8 @@
  */
 
 import Navbar from './components/Navbar';
-import Designers from './components/Designers';
 import HowItWorks from './components/HowItWorks';
 import Portfolio from './components/Portfolio';
-import DesignerDetail from './components/DesignerDetail';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Brands from './components/Brands';
@@ -16,7 +14,7 @@ import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import AboutUs from './components/AboutUs';
 import PageTransition from './components/PageTransition';
-import AdminDashboard from './components/AdminDashboard';
+// Designers and admin sections removed per requested scope
 import { motion, useScroll, useSpring, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { ChevronUp, type LucideIcon } from 'lucide-react';
@@ -32,7 +30,7 @@ import {
   MessageSquare,
   Rocket,
   ShieldCheck,
-  Sparkles,
+  Star as Sparkles,
   UserRound,
 } from "lucide-react";
 
@@ -75,7 +73,7 @@ const featureCards: FeatureCard[] = [
 
 const routeCards: RouteCard[] = [
   { href: "/", label: "Home", text: "Entry point to the ecosystem" },
-  { href: "/designers", label: "Designers", text: "Browse our exclusive roster" },
+  // designers removed
   { href: "/how-it-works", label: "How it Works", text: "The collaborative process" },
   { href: "/portfolio", label: "Portfolio", text: "Showcase of masterworks" },
   { href: "/contact", label: "Contact", text: "Partner with our agency" },
@@ -133,9 +131,9 @@ function Home() {
             </p>
 
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <Link to="/designers">
+              <Link to="/portfolio">
                 <Button size="lg" className="w-full sm:w-auto">
-                  Explore Roster <ArrowRight size={14} className="ml-3" />
+                  Explore Portfolio <ArrowRight size={14} className="ml-3" />
                 </Button>
               </Link>
               <Link to="/contact">
@@ -326,21 +324,7 @@ function Home() {
   );
 }
 
-function DesignersPage() {
-  return (
-    <PageTransition>
-      <Designers />
-    </PageTransition>
-  );
-}
-
-function DesignerDetailPage() {
-  return (
-    <PageTransition>
-      <DesignerDetail />
-    </PageTransition>
-  );
-}
+// Designers pages removed
 
 function HowItWorksPage() {
   return (
@@ -390,13 +374,7 @@ function TermsOfServicePage() {
   );
 }
 
-function AdminDashboardPage() {
-  return (
-    <PageTransition>
-      <AdminDashboard />
-    </PageTransition>
-  );
-}
+// Admin dashboard removed
 
 export default function App() {
   const { scrollYProgress, scrollY } = useScroll();
@@ -449,7 +427,8 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const isAdmin = location.pathname.startsWith('/admin');
+  // admin removed; always render standard layout
+  const isAdmin = false;
 
   return (
     <div className={theme}>
@@ -496,7 +475,7 @@ export default function App() {
 
         <motion.div className="scroll-progress z-[60] fixed top-0 left-0 right-0 h-1 bg-luxury-accent origin-left" style={{ scaleX }} />
 
-        {!isLoading && !isAdmin && <Navbar theme={theme} toggleTheme={toggleTheme} />}
+        {!isLoading && <Navbar theme={theme} toggleTheme={toggleTheme} />}
 
         <motion.div
           initial={{ opacity: 0 }}
@@ -509,19 +488,18 @@ export default function App() {
               {/* @ts-ignore - React Router v7 RoutesProps doesn't explicitly include key, but AnimatePresence requires it */}
               <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Home />} />
-                <Route path="/designers" element={<DesignersPage />} />
-                <Route path="/designers/:designerId" element={<DesignerDetailPage />} />
+                {/* designers removed */}
                 <Route path="/how-it-works" element={<HowItWorksPage />} />
                 <Route path="/portfolio" element={<PortfolioPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/about" element={<AboutUsPage />} />
                 <Route path="/privacy" element={<PrivacyPolicyPage />} />
                 <Route path="/terms" element={<TermsOfServicePage />} />
-                <Route path="/admin" element={<AdminDashboardPage />} />
+                {/* admin removed */}
               </Routes>
             </AnimatePresence>
           </main>
-          {!isAdmin && <Footer />}
+          <Footer />
         </motion.div>
 
         <AnimatePresence>

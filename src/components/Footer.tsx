@@ -22,7 +22,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-12 text-center md:text-left">
           <div className="space-y-6">
             <ul className="space-y-4 text-xs text-[var(--text-primary)] opacity-50 font-light pt-8">
-              <li><Link to="/designers" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">Find Designers</Link></li>
+              <li><Link to="/portfolio" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">Find Portfolios</Link></li>
               <li><Link to="/how-it-works" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">How it Works</Link></li>
               <li><Link to="/portfolio" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">Portfolios</Link></li>
             </ul>
@@ -38,7 +38,7 @@ export default function Footer() {
             <ul className="space-y-4 text-xs text-[var(--text-primary)] opacity-50 font-light pt-8">
               <li><Link to="/privacy" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">Terms of Service</Link></li>
-              <li><Link to="/admin" className="hover:text-luxury-accent transition-colors hover:translate-x-1 inline-block transform">Admin</Link></li>
+              {/* Admin panel removed */}
             </ul>
           </div>
         </div>

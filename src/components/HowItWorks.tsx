@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Sparkles, MessageSquare, Briefcase, CheckCircle } from 'lucide-react';
+import { Star as Sparkles, MessageSquare, Briefcase, CheckCircle } from 'lucide-react';
 import AnimatedSection from './AnimatedSection';
 import { Reveal, Card } from './ui';
 

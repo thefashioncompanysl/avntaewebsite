@@ -11,7 +11,7 @@ interface DesignerCardProps {
 
 const DesignerCard: FC<DesignerCardProps> = ({ designer, index }) => {
   return (
-    <Link to={`/designers/${designer.id}`} className="group flex flex-col h-full">
+    <Link to={`/portfolio`} className="group flex flex-col h-full">
         <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

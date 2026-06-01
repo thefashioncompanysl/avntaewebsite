@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowLeft, Briefcase, Mail, Sparkles, UserCircle } from 'lucide-react';
+import { ArrowLeft, Briefcase, Mail, Star as Sparkles, UserCircle } from 'lucide-react';
 import { useDesigners } from '../context/DesignersContext';
 import { Badge } from './ui';
 
@@ -30,9 +30,9 @@ export default function DesignerDetail() {
                     <p className="opacity-60 leading-relaxed">
                         The profile may have been removed or is still syncing from Supabase.
                     </p>
-                    <Link to="/designers" className="inline-flex items-center gap-3 rounded-full border border-[var(--border-primary)] px-6 py-3 hover:border-luxury-accent transition-colors">
+                    <Link to="/portfolio" className="inline-flex items-center gap-3 rounded-full border border-[var(--border-primary)] px-6 py-3 hover:border-luxury-accent transition-colors">
                         <ArrowLeft size={16} />
-                        Back to Designers
+                        Back to portfolio
                     </Link>
                 </div>
             </div>
@@ -42,8 +42,8 @@ export default function DesignerDetail() {
     return (
         <div className="px-6 py-20 md:py-28">
             <div className="max-w-7xl mx-auto">
-                <Link to="/designers" className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.25em] opacity-60 hover:opacity-100 transition-opacity mb-10">
-                    <ArrowLeft size={16} /> Back to roster
+                    <Link to="/portfolio" className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.25em] opacity-60 hover:opacity-100 transition-opacity mb-10">
+                    <ArrowLeft size={16} /> Back to portfolio
                 </Link>
 
                 <motion.div

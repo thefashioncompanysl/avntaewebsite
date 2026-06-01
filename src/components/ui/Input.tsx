@@ -1,7 +1,7 @@
 import * as React from "react";
 
-export const Label = ({ children, className }: { children: React.ReactNode; className?: string }) => (
-  <label className={`text-[10px] uppercase tracking-[0.4em] text-[var(--text-primary)] opacity-30 font-bold block mb-4 transition-colors group-focus-within:text-luxury-accent ${className}`}>
+export const Label = ({ children, className, htmlFor }: { children: React.ReactNode; className?: string; htmlFor?: string }) => (
+  <label htmlFor={htmlFor} className={`text-[10px] uppercase tracking-[0.4em] text-[var(--text-primary)] opacity-30 font-bold block mb-4 transition-colors group-focus-within:text-luxury-accent ${className}`}>
     {children}
   </label>
 );
