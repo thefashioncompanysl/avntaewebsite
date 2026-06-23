@@ -120,7 +120,7 @@ function Home() {
             className="relative z-10"
           >
             <Reveal width="100%">
-              <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-bold leading-[1.1] md:leading-[0.9] tracking-tight pr-8">
+              <h2 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif font-bold leading-[1.1] md:leading-[0.9] tracking-tight pr-8 drop-shadow-lg">
                 Connect with <br />
                 <span className="text-gold-gradient">Visionaries</span>
               </h2>
@@ -130,7 +130,7 @@ function Home() {
               AVNTAE is an exclusive ecosystem facilitating connections between global fashion houses and high-caliber creative minds. We curate excellence for the runway.
             </p>
 
-            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+              <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <Link to="/portfolio">
                 <Button size="lg" className="w-full sm:w-auto">
                   Explore Portfolio <ArrowRight size={14} className="ml-3" />
@@ -198,14 +198,14 @@ function Home() {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {featureCards.map((card, index) => (
+              {featureCards.map((card, index) => (
               <motion.article
                 key={card.title}
                 initial={{ opacity: 0, y: 18 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.04 }}
-                  className="rounded-[2rem] border border-[var(--border-primary)] glass p-8 transition-all duration-500 hover:-translate-y-2 hover:border-luxury-accent/30 group will-change-opt"
+                  className="rounded-[2rem] border border-[var(--border-primary)] glass p-8 transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:border-luxury-accent/30 group will-change-transform"
               >
                 <div className="w-12 h-12 rounded-xl bg-luxury-accent/5 flex items-center justify-center text-luxury-accent mb-8 group-hover:backdrop-blur-lg group-hover:bg-[rgba(255,255,255,0.03)] group-hover:text-[var(--text-primary)] transition-all">
                   <card.icon className="h-6 w-6" />

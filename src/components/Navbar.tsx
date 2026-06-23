@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, SunMedium, MoonStar } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui';
 
@@ -80,12 +80,16 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           <Button
             type="button"
             variant="ghost"
-            className="group h-10 w-10 p-0 rounded-full text-luxury-accent border-[var(--border-primary)] bg-[var(--text-primary)]/6 hover:backdrop-blur-sm hover:bg-[rgba(255,255,255,0.08)] hover:text-[var(--text-primary)] relative flex items-center justify-center"
+            className="group h-11 w-11 p-0 rounded-full border border-[var(--border-primary)] bg-[var(--bg-primary)]/55 hover:bg-[var(--bg-primary)]/80 hover:backdrop-blur-md relative flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.12)] ring-1 ring-white/5"
             onClick={toggleTheme}
             title="Toggle Theme (Ctrl/Cmd + T)"
             aria-label="Toggle theme"
           >
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            {theme === 'dark' ? (
+              <SunMedium size={19} strokeWidth={2.8} className="shrink-0 text-luxury-accent drop-shadow-[0_0_4px_rgba(212,175,55,0.18)]" />
+            ) : (
+              <MoonStar size={19} strokeWidth={2.8} className="shrink-0 text-[var(--text-primary)] drop-shadow-[0_0_4px_rgba(0,0,0,0.12)]" />
+            )}
             <span className="sr-only">Toggle theme</span>
           </Button>
         </div>
@@ -95,11 +99,15 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           <Button
             type="button"
             variant="ghost"
-            className="w-10 h-10 p-0 rounded-full text-luxury-accent border-[var(--border-primary)] bg-[var(--text-primary)]/6"
+            className="w-11 h-11 p-0 rounded-full border border-[var(--border-primary)] bg-[var(--bg-primary)]/55 hover:bg-[var(--bg-primary)]/80 hover:backdrop-blur-md relative flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.12)] ring-1 ring-white/5"
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            {theme === 'dark' ? (
+              <SunMedium size={19} strokeWidth={2.8} className="shrink-0 text-luxury-accent drop-shadow-[0_0_4px_rgba(212,175,55,0.18)]" />
+            ) : (
+              <MoonStar size={19} strokeWidth={2.8} className="shrink-0 text-[var(--text-primary)] drop-shadow-[0_0_4px_rgba(0,0,0,0.12)]" />
+            )}
           </Button>
           <Button
             type="button"
