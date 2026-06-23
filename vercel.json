@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "env": {
+    "VITE_SUPABASE_URL": "@vite_supabase_url",
+    "VITE_SUPABASE_ANON_KEY": "@vite_supabase_anon_key",
+    "VITE_EMAILJS_SERVICE_ID": "@vite_emailjs_service_id",
+    "VITE_EMAILJS_TEMPLATE_ID": "@vite_emailjs_template_id",
+    "VITE_EMAILJS_PUBLIC_KEY": "@vite_emailjs_public_key"
+  }
+}
